@@ -992,3 +992,14 @@ font-size:70px;
 
 }
 
+.logo img{
+    width:240px;
+    height:auto;
+    display:block;
+}
+
+@media(max-width:768px){
+    .logo img{
+        width:180px;
+    }
+}
