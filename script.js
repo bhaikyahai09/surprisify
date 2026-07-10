@@ -1,11 +1,8 @@
-// ===== Launch Date =====
-// Change this date whenever you want.
-const launchDate = new Date("December 31, 2026 23:59:59").getTime();
+/* ===========================
+COUNTDOWN
+=========================== */
 
-const days = document.getElementById("days");
-const hours = document.getElementById("hours");
-const minutes = document.getElementById("minutes");
-const seconds = document.getElementById("seconds");
+const launchDate = new Date("December 31, 2026 23:59:59").getTime();
 
 function updateCountdown(){
 
@@ -13,32 +10,29 @@ const now = new Date().getTime();
 
 const distance = launchDate - now;
 
-if(distance <= 0){
+if(distance < 0){
 
-days.innerHTML="00";
-hours.innerHTML="00";
-minutes.innerHTML="00";
-seconds.innerHTML="00";
-
-document.querySelector(".tag").innerHTML =
-"🚀 We Are Live!";
+document.getElementById("days").innerHTML="00";
+document.getElementById("hours").innerHTML="00";
+document.getElementById("minutes").innerHTML="00";
+document.getElementById("seconds").innerHTML="00";
 
 return;
 
 }
 
-const d = Math.floor(distance/(1000*60*60*24));
+const days=Math.floor(distance/(1000*60*60*24));
 
-const h = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
 
-const m = Math.floor((distance%(1000*60*60))/(1000*60));
+const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
 
-const s = Math.floor((distance%(1000*60))/1000);
+const seconds=Math.floor((distance%(1000*60))/1000);
 
-days.innerHTML = String(d).padStart(2,"0");
-hours.innerHTML = String(h).padStart(2,"0");
-minutes.innerHTML = String(m).padStart(2,"0");
-seconds.innerHTML = String(s).padStart(2,"0");
+document.getElementById("days").innerHTML=String(days).padStart(2,"0");
+document.getElementById("hours").innerHTML=String(hours).padStart(2,"0");
+document.getElementById("minutes").innerHTML=String(minutes).padStart(2,"0");
+document.getElementById("seconds").innerHTML=String(seconds).padStart(2,"0");
 
 }
 
@@ -47,93 +41,59 @@ updateCountdown();
 setInterval(updateCountdown,1000);
 
 
-// ===== Mouse Glow =====
+/* ===========================
+PAGE ANIMATION
+=========================== */
 
-document.addEventListener("mousemove",(e)=>{
+window.onload=()=>{
 
-let glow=document.querySelector(".mouseGlow");
-
-if(!glow){
-
-glow=document.createElement("div");
-
-glow.className="mouseGlow";
-
-document.body.appendChild(glow);
-
-glow.style.cssText=`
-position:fixed;
-width:250px;
-height:250px;
-border-radius:50%;
-background:radial-gradient(circle,
-rgba(0,255,255,.25),
-transparent 70%);
-pointer-events:none;
-transform:translate(-50%,-50%);
-z-index:-1;
-transition:.08s linear;
-`;
-
-}
-
-glow.style.left=e.clientX+"px";
-glow.style.top=e.clientY+"px";
-
-});
-
-
-// ===== Fade Animation =====
-
-const card=document.querySelector(".glass");
-
-card.style.opacity="0";
-card.style.transform="translateY(60px)";
+document.body.style.opacity="0";
 
 setTimeout(()=>{
 
-card.style.transition="1.2s";
+document.body.style.transition="1.2s";
 
-card.style.opacity="1";
+document.body.style.opacity="1";
 
-card.style.transform="translateY(0px)";
+},100);
 
-},300);
+}
 
 
-// ===== Floating Emojis =====
+/* ===========================
+FLOATING EMOJIS
+=========================== */
 
-const emojis=["🎁","✨","🎉","💜","🎈","🚀"];
+const emojis=["🎁","✨","🎉","💜","🎈","🚀","⭐"];
 
 function createEmoji(){
 
 const emoji=document.createElement("div");
 
-emoji.innerHTML=
-emojis[Math.floor(Math.random()*emojis.length)];
+emoji.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
 
 emoji.style.position="fixed";
 
 emoji.style.left=Math.random()*100+"vw";
 
-emoji.style.top="105vh";
+emoji.style.top="110vh";
 
-emoji.style.fontSize=(20+Math.random()*25)+"px";
-
-emoji.style.opacity=".8";
+emoji.style.fontSize=(18+Math.random()*18)+"px";
 
 emoji.style.pointerEvents="none";
+
+emoji.style.zIndex="999";
 
 emoji.style.transition="linear";
 
 document.body.appendChild(emoji);
 
-const duration=6000+Math.random()*4000;
+const duration=7000+Math.random()*4000;
 
 setTimeout(()=>{
 
 emoji.style.transform=
-`translateY(-120vh)
+`translateY(-130vh)
 rotate(${Math.random()*720}deg)`;
 
 emoji.style.opacity="0";
@@ -148,4 +108,117 @@ emoji.remove();
 
 }
 
-setInterval(createEmoji,900);
+setInterval(createEmoji,800);
+
+
+/* ===========================
+CURSOR GLOW
+=========================== */
+
+const glow=document.createElement("div");
+
+glow.style.position="fixed";
+
+glow.style.width="250px";
+
+glow.style.height="250px";
+
+glow.style.borderRadius="50%";
+
+glow.style.pointerEvents="none";
+
+glow.style.background="radial-gradient(circle,rgba(0,212,255,.18),transparent 70%)";
+
+glow.style.transform="translate(-50%,-50%)";
+
+glow.style.zIndex="-1";
+
+document.body.appendChild(glow);
+
+document.addEventListener("mousemove",(e)=>{
+
+glow.style.left=e.clientX+"px";
+
+glow.style.top=e.clientY+"px";
+
+});
+
+
+/* ===========================
+SHOOTING STARS
+=========================== */
+
+function shootingStar(){
+
+const star=document.createElement("div");
+
+star.style.position="fixed";
+
+star.style.width="3px";
+
+star.style.height="120px";
+
+star.style.background="linear-gradient(white,transparent)";
+
+star.style.transform="rotate(45deg)";
+
+star.style.left=Math.random()*100+"vw";
+
+star.style.top="-120px";
+
+star.style.opacity=".8";
+
+star.style.pointerEvents="none";
+
+document.body.appendChild(star);
+
+star.animate([
+
+{
+
+transform:"translate(0,0) rotate(45deg)"
+
+},
+
+{
+
+transform:"translate(-500px,500px) rotate(45deg)"
+
+}
+
+],{
+
+duration:1600
+
+});
+
+setTimeout(()=>{
+
+star.remove();
+
+},1700);
+
+}
+
+setInterval(shootingStar,2500);
+
+
+/* ===========================
+BUTTON RIPPLE
+=========================== */
+
+document.querySelectorAll("a").forEach(btn=>{
+
+btn.addEventListener("mouseenter",()=>{
+
+btn.style.transform="scale(1.05)";
+
+});
+
+btn.addEventListener("mouseleave",()=>{
+
+btn.style.transform="scale(1)";
+
+});
+
+});
