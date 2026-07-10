@@ -2,7 +2,7 @@
 COUNTDOWN
 =========================== */
 
-const launchDate = new Date("December 31, 2026 23:59:59").getTime();
+const launchDate = new Date("Augest 10, 2026 23:59:59").getTime();
 
 function updateCountdown(){
 
