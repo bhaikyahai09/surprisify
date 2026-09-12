@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Surprisify helps you discover thoughtful surprise ideas, gifts, activities and messages for birthdays, anniversaries, friends, family and special people.">
+  <meta name="keywords" content="surprise ideas, birthday surprise, gift ideas, romantic surprises, anniversary ideas, surprise generator">
+  <meta name="author" content="Surprisify">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Surprisify — Find Your Perfect Surprise">
+  <meta property="og:description" content="Get a thoughtful surprise idea in seconds.">
+  <meta property="og:type" content="website">
+  <title>Surprisify — Find Your Perfect Surprise 🎁</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #292334;
+      background: #fff8fc;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, select { font: inherit; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255,248,252,.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #f0dfe9;
+    }
+    .nav {
+      max-width: 1100px;
+      margin: auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .logo { font-size: 1.45rem; font-weight: 800; letter-spacing: -.5px; }
+    .logo span { color: #d84c86; }
+    nav { display: flex; gap: 20px; font-size: .95rem; }
+    nav a:hover { color: #d84c86; }
+
+    .hero {
+      max-width: 1100px;
+      margin: auto;
+      padding: 70px 20px 45px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      padding: 7px 13px;
+      border-radius: 999px;
+      background: #ffe3ef;
+      color: #a62d61;
+      font-weight: 700;
+      font-size: .85rem;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: clamp(2.2rem, 7vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: -2px;
+      max-width: 850px;
+      margin: auto;
+    }
+    .hero h1 span { color: #d84c86; }
+    .hero p {
+      max-width: 680px;
+      margin: 20px auto 28px;
+      color: #6d6471;
+      font-size: 1.08rem;
+    }
+
+    .generator {
+      max-width: 900px;
+      margin: 15px auto 0;
+      background: white;
+      border: 1px solid #efdce7;
+      border-radius: 24px;
+      padding: 25px;
+      box-shadow: 0 16px 45px rgba(86, 35, 61, .08);
+      text-align: left;
+    }
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+    label { display: block; font-size: .85rem; font-weight: 750; margin-bottom: 7px; }
+    select {
+      width: 100%;
+      padding: 13px 12px;
+      border: 1px solid #decbd6;
+      border-radius: 12px;
+      background: #fff;
+      color: #302936;
+      outline: none;
+    }
+    select:focus { border-color: #d84c86; }
+
+    .primary {
+      width: 100%;
+      border: 0;
+      border-radius: 13px;
+      padding: 14px 18px;
+      margin-top: 18px;
+      background: #d84c86;
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .15s, opacity .15s;
+    }
+    .primary:hover { transform: translateY(-1px); opacity: .94; }
+
+    #result {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 17px;
+      background: #fff0f6;
+      border: 1px solid #f2c8dc;
+    }
+    #result.show { display: block; }
+    #result h3 { margin-bottom: 5px; color: #9e285c; }
+    #idea { font-size: 1.03rem; }
+    .result-actions { display: flex; gap: 10px; margin-top: 13px; }
+    .secondary {
+      border: 1px solid #d9bccb;
+      background: white;
+      padding: 9px 13px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 55px 20px;
+    }
+    .section h2 { font-size: 2rem; margin-bottom: 10px; letter-spacing: -.7px; }
+    .section-intro { color: #706774; margin-bottom: 25px; max-width: 700px; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 17px;
+    }
+    .card {
+      background: white;
+      border: 1px solid #efdee7;
+      border-radius: 18px;
+      padding: 21px;
+    }
+    .card .emoji { font-size: 1.8rem; }
+    .card h3 { margin: 8px 0 5px; }
+    .card p { color: #6e6670; font-size: .94rem; }
+
+    .ad-space {
+      max-width: 970px;
+      min-height: 90px;
+      margin: 5px auto 20px;
+      padding: 15px;
+      border: 1px dashed #dccbd5;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9b9099;
+      font-size: .82rem;
+    }
+
+    .faq { border-top: 1px solid #eadbe3; }
+    details { padding: 17px 0; border-bottom: 1px solid #eadbe3; }
+    summary { cursor: pointer; font-weight: 750; }
+    details p { color: #6d6470; padding-top: 9px; max-width: 800px; }
+
+    .about {
+      background: #fff0f6;
+      border-radius: 24px;
+      padding: 30px;
+    }
+
+    footer {
+      margin-top: 25px;
+      background: #292334;
+      color: #eee7ec;
+      padding: 35px 20px;
+    }
+    .footer-inner { max-width: 1100px; margin: auto; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; }
+    .footer-links a { color: #d9cbd4; font-size: .92rem; }
+    .copyright { margin-top: 20px; color: #a99ca6; font-size: .85rem; }
+
+    @media (max-width: 760px) {
+      nav { display: none; }
+      .hero { padding-top: 50px; }
+      .fields, .cards { grid-template-columns: 1fr; }
+      .generator { padding: 18px; }
+      .section { padding: 42px 20px; }
+      h1 { letter-spacing: -1.2px; }
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="nav">
+    <a class="logo" href="#home">Surpri<span>sify</span> 🎁</a>
+    <nav>
+      <a href="#generator">Generator</a>
+      <a href="#ideas">Ideas</a>
+      <a href="#about">About</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="home">
+  <section class="hero">
+    <div class="badge">✨ Make an ordinary moment special</div>
+    <h1>Find a surprise they'll <span>remember.</span></h1>
+    <p>Tell us who the surprise is for, the occasion and your budget. Surprisify will give you a simple idea you can actually use.</p>
+
+    <div class="generator" id="generator">
+      <div class="fields">
+        <div>
+          <label for="person">Who is it for?</label>
+          <select id="person">
+            <option>Friend</option>
+            <option>Partner</option>
+            <option>Family</option>
+            <option>Crush</option>
+            <option>Anyone special</option>
+          </select>
+        </div>
+        <div>
+          <label for="occasion">Occasion</label>
+          <select id="occasion">
+            <option>Birthday</option>
+            <option>Anniversary</option>
+            <option>Just Because</option>
+            <option>Celebration</option>
+            <option>Long Distance</option>
+          </select>
+        </div>
+        <div>
+          <label for="budget">Budget</label>
+          <select id="budget">
+            <option>Free</option>
+            <option>Low</option>
+            <option>Medium</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="primary" onclick="generateIdea()">Surprisify Me ✨</button>
+
+      <div id="result">
+        <h3>Your surprise idea 💝</h3>
+        <p id="idea"></p>
+        <div class="result-actions">
+          <button class="secondary" onclick="generateIdea()">Try another</button>
+          <button class="secondary" onclick="copyIdea()">Copy idea</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ad-space" aria-label="Advertisement space">Advertisement</div>
+
+  <section class="section" id="ideas">
+    <h2>Find inspiration</h2>
+    <p class="section-intro">Sometimes the best surprises aren't expensive. They're thoughtful, personal and planned with a little care.</p>
+
+    <div class="cards">
+      <article class="card">
+        <div class="emoji">🎂</div>
+        <h3>Birthday surprises</h3>
+        <p>Simple ways to make someone's birthday feel personal, from handwritten notes to memorable activities.</p>
+      </article>
+      <article class="card">
+        <div class="emoji">💕</div>
+        <h3>Romantic ideas</h3>
+        <p>Thoughtful date ideas, small gestures and meaningful surprises for someone special.</p>
+      </article>
+      <article class="card">
+        <div class="emoji">🤝</div>
+        <h3>Friendship surprises</h3>
+        <p>Low-cost and creative ideas to show your friends that you appreciate them.</p>
+      </article>
+      <article class="card">
+        <div class="emoji">🎁</div>
+        <h3>Gift inspiration</h3>
+        <p>Use interests, memories and personality to choose gifts that feel more personal.</p>
+      </article>
+      <article class="card">
+        <div class="emoji">💌</div>
+        <h3>Message ideas</h3>
+        <p>Get inspiration for warm birthday, anniversary, friendship and appreciation messages.</p>
+      </article>
+      <article class="card">
+        <div class="emoji">🌟</div>
+        <h3>Just because</h3>
+        <p>You don't need an occasion. Discover small ideas for making an ordinary day unexpectedly nice.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="about">
+      <h2>About Surprisify</h2>
+      <p>Surprisify is a simple inspiration website for people who want to make special moments more memorable. We focus on practical surprise ideas that can work for different relationships, occasions and budgets.</p>
+      <br>
+      <p>Our goal is not to tell you exactly what to buy. Instead, we help you discover an idea and adapt it to the person you care about.</p>
+    </div>
+  </section>
+
+  <section class="section faq" id="faq">
+    <h2>Frequently asked questions</h2>
+    <details>
+      <summary>What is Surprisify?</summary>
+      <p>Surprisify is an online source of surprise inspiration, including gift ideas, activities, messages and simple ways to celebrate people you care about.</p>
+    </details>
+    <details>
+      <summary>Is the surprise generator free?</summary>
+      <p>Yes. The generator on this website is designed to be free to use.</p>
+    </details>
+    <details>
+      <summary>Do I need to spend a lot of money?</summary>
+      <p>No. Many memorable surprises are based on time, creativity and personal thought rather than cost.</p>
+    </details>
+    <details>
+      <summary>Can I use an idea for any occasion?</summary>
+      <p>Absolutely. Treat the generated idea as inspiration and adjust it to suit the person, occasion and your relationship.</p>
+    </details>
+  </section>
+
+  <section class="section">
+    <h2>Privacy</h2>
+    <p class="section-intro">The generator works in your browser and does not require an account. If analytics or advertising services are added later, this page should be updated with the relevant disclosures and a complete privacy policy before publishing.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <strong>Surprisify 🎁</strong>
+    <div class="footer-links">
+      <a href="#about">About</a>
+      <a href="#faq">FAQ</a>
+      <a href="#privacy">Privacy Policy</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <p class="copyright">© 2026 Surprisify. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  const ideas = {
+    "Friend": {
+      "Birthday": {
+        "Free": ["Make a short video using your favorite shared memories and send it at midnight.", "Write a handwritten-style digital letter listing five things you appreciate about your friend.", "Create a mini treasure hunt using clues based on your funniest memories together."],
+        "Low": ["Put together a small snack-and-memory box with their favorite treats and printed photos.", "Plan a surprise evening walk with their favorite playlist and a small dessert stop."],
+        "Medium": ["Plan a themed day around something your friend loves, including food, an activity and a small personalized gift."]
+      },
+      "Anniversary": {
+        "Free": ["Create a timeline of your best friendship memories and share it as a digital card.", "Recreate the first funny or memorable moment you both remember and document it with a photo."],
+        "Low": ["Make a friendship scrapbook with photos, inside jokes and short notes.", "Arrange a favorite-food picnic and bring a small memory card for them."],
+        "Medium": ["Plan a full friendship day around three places or activities that represent your journey together."]
+      },
+      "Just Because": {
+        "Free": ["Send an unexpected message telling them one specific thing they do that makes your life better.", "Make a playlist named after an inside joke you both share."],
+        "Low": ["Drop off their favorite snack with a tiny note saying, 'No reason. Just thought of you.'"],
+        "Medium": ["Organize a surprise hangout around an activity they have wanted to try."]
+      },
+      "Celebration": {
+        "Free": ["Make a funny digital congratulations card featuring your favorite photo of them.", "Create a short celebration video with messages from mutual friends."],
+        "Low": ["Bring their favorite dessert and celebrate with a small surprise at home."],
+        "Medium": ["Plan a small themed celebration with their favorite food, music and a personalized keepsake."]
+      },
+      "Long Distance": {
+        "Free": ["Schedule a video call and prepare a list of old memories to talk about together.", "Send a digital photo collage with a personal note."],
+        "Low": ["Order or send a small favorite snack with a handwritten note."],
+        "Medium": ["Plan a virtual movie night with matching snacks and a surprise digital card."]
+      }
+    },
+
+    "Partner": {
+      "Birthday": {
+        "Free": ["Write a letter called 'The little things I love about you' and include specific memories.", "Create a private digital page counting down to their birthday with messages and photos."],
+        "Low": ["Prepare a small box containing favorite snacks, photos and tiny notes for different moods.", "Plan a surprise breakfast and leave a sweet note beside it."],
+        "Medium": ["Plan a personalized date based entirely on their favorite food, music and activity."]
+      },
+      "Anniversary": {
+        "Free": ["Recreate your first-date conversation with questions about what you both remember.", "Make a digital memory book with your favorite moments together."],
+        "Low": ["Recreate a favorite date at home with the same food, music and a handwritten note."],
+        "Medium": ["Plan a surprise experience connected to a place, hobby or memory that matters to both of you."]
+      },
+      "Just Because": {
+        "Free": ["Send a message describing one ordinary moment with them that you secretly love.", "Make a playlist of songs connected to your relationship."],
+        "Low": ["Surprise them with their favorite drink and a note after an ordinary day."],
+        "Medium": ["Plan a mystery date where you reveal each activity one step at a time."]
+      },
+      "Celebration": {
+        "Free": ["Create a small digital celebration card with your favorite photos together.", "Write a list of 10 reasons you're proud of them."],
+        "Low": ["Prepare their favorite meal and turn the evening into a mini celebration."],
+        "Medium": ["Arrange a personalized celebration evening with decorations, favorite food and a meaningful keepsake."]
+      },
+      "Long Distance": {
+        "Free": ["Create a shared online playlist and write a message explaining the meaning behind each song.", "Plan a virtual dinner where you both cook the same simple meal."],
+        "Low": ["Send a care package with snacks, photos and a note to open each day.", "Send their favorite treat with a small surprise letter."],
+        "Medium": ["Plan a virtual date with matching food, a movie and a surprise digital gift."]
+      }
+    },
+
+    "Family": {
+      "Birthday": {
+        "Free": ["Make a family memory video using old photos and short messages from everyone.", "Write a letter sharing your favorite family memory with them."],
+        "Low": ["Prepare their favorite breakfast and decorate the table with family photos."],
+        "Medium": ["Organize a family activity based on their favorite hobby and finish with their favorite meal."]
+      },
+      "Anniversary": {
+        "Free": ["Create a family timeline of memorable moments and share it during a small gathering.", "Collect short appreciation messages from family members."],
+        "Low": ["Prepare a photo album with captions describing the memories.", "Plan a simple family dinner with a personalized table card."],
+        "Medium": ["Organize a family day around a meaningful place or activity."]
+      },
+      "Just Because": {
+        "Free": ["Send a message thanking them for one thing they have done that you still remember.", "Call them unexpectedly just to spend some time talking."],
+        "Low": ["Bring home their favorite snack without telling them first."],
+        "Medium": ["Plan a surprise family outing based on something they enjoy."]
+      },
+      "Celebration": {
+        "Free": ["Make a congratulations card signed by everyone in the family.", "Create a short video of family members sharing one reason they're proud of them."],
+        "Low": ["Prepare a favorite meal and dessert for a small celebration."],
+        "Medium": ["Host a small themed family celebration with photos and a personalized keepsake."]
+      },
+      "Long Distance": {
+        "Free": ["Arrange a family video call with everyone joining at the same time.", "Create a digital family photo album with short captions."],
+        "Low": ["Send a small care package containing familiar snacks and family photos."],
+        "Medium": ["Plan a virtual family celebration with food, games and a surprise video."]
+      }
+    },
+
+    "Crush": {
+      "Birthday": {
+        "Free": ["Send a warm birthday message that mentions one genuine quality you admire about them.", "Make a simple digital birthday card that feels personal without being overwhelming."],
+        "Low": ["Give them a small favorite snack with a short, friendly birthday note."],
+        "Medium": ["Plan a casual birthday coffee or activity around something they genuinely enjoy."]
+      },
+      "Anniversary": {
+        "Free": ["Create a simple appreciation note focused on a shared memory.", "Make a playlist of songs that remind you of good conversations."],
+        "Low": ["Suggest a casual outing to celebrate a memorable milestone."],
+        "Medium": ["Plan a relaxed experience based on a shared interest."]
+      },
+      "Just Because": {
+        "Free": ["Send a funny message or meme connected to an inside joke.", "Share a song and explain why you thought they'd like it."],
+        "Low": ["Bring them a small snack you noticed they like."],
+        "Medium": ["Invite them to a casual activity where you can spend time together naturally."]
+      },
+      "Celebration": {
+        "Free": ["Send a cheerful congratulations message with a personal compliment.", "Create a small digital card celebrating their achievement."],
+        "Low": ["Celebrate with their favorite snack or drink and a friendly note."],
+        "Medium": ["Invite them to a casual celebration around their favorite activity."]
+      },
+      "Long Distance": {
+        "Free": ["Send a thoughtful message and a shared playlist.", "Plan a short video call around a common interest."],
+        "Low": ["Send a small snack package with a simple note."],
+        "Medium": ["Plan an online game or movie night with a surprise digital card."]
+      }
+    },
+
+    "Anyone special": {
+      "Birthday": {
+        "Free": ["Write a personal letter describing your favorite memory with them.", "Create a photo collage with a short message under every photo."],
+        "Low": ["Put together a small box of their favorite treats and a thoughtful note."],
+        "Medium": ["Plan a personalized day around their favorite food and activity."]
+      },
+      "Anniversary": {
+        "Free": ["Create a digital memory timeline celebrating the moments you've shared.", "Write a note about how they have made a difference in your life."],
+        "Low": ["Plan a simple meal featuring their favorite foods."],
+        "Medium": ["Plan a memorable experience connected to an important shared memory."]
+      },
+      "Just Because": {
+        "Free": ["Tell them one specific reason you're grateful to have them in your life.", "Make a playlist or photo collage just because you thought of them."],
+        "Low": ["Surprise them with a favorite treat and a tiny note."],
+        "Medium": ["Plan an unexpected activity based on something they love."]
+      },
+      "Celebration": {
+        "Free": ["Make a digital congratulations card with a personal message.", "Record a short video telling them why you're proud of them."],
+        "Low": ["Bring their favorite dessert and celebrate together."],
+        "Medium": ["Plan a small personalized celebration with food, music and a keepsake."]
+      },
+      "Long Distance": {
+        "Free": ["Plan a video call and prepare a surprise playlist.", "Create a digital photo album with a heartfelt note."],
+        "Low": ["Send a small care package with photos and favorite treats."],
+        "Medium": ["Organize a virtual celebration with matching food and a digital surprise."]
+      }
+    }
+  };
+
+  function generateIdea() {
+    const person = document.getElementById("person").value;
+    const occasion = document.getElementById("occasion").value;
+    const budget = document.getElementById("budget").value;
+
+    const list = ideas[person][occasion][budget] || ideas[person][occasion]["Low"];
+    const selected = list[Math.floor(Math.random() * list.length)];
+
+    document.getElementById("idea").textContent = selected;
+    document.getElementById("result").classList.add("show");
+    document.getElementById("result").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  async function copyIdea() {
+    const text = document.getElementById("idea").textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("Idea copied! ✨");
+    } catch {
+      alert("Please select and copy the idea manually.");
+    }
+  }
+</script>
+</body>
+</html>
